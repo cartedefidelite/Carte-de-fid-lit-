@@ -1,5 +1,4 @@
-apiKey: "TA_CLE_API"
-
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -15,12 +14,11 @@ apiKey: "TA_CLE_API"
 <p>Points : <span id="points"></span> / <span id="objectif"></span></p>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "TA_CLE_API",
+  apiKey: "AIzaSyCV1CyxI6tjWFPH3avuhnfT8_7jRN-vZds",
   authDomain: "carte-de-fidelite-4e429.firebaseapp.com",
   projectId: "carte-de-fidelite-4e429",
   storageBucket: "carte-de-fidelite-4e429.firebasestorage.app",
@@ -42,7 +40,6 @@ if (docSnap.exists()) {
   document.getElementById("points").textContent = data.points;
   document.getElementById("objectif").textContent = data.objectif;
 }
-
 </script>
 
 </body>
