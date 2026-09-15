@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+apiKey: "TA_CLE_API"
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -8,10 +9,41 @@
 
 <h1>Carte Fidélité</h1>
 
-<p>Prénom : Jean</p>
-<p>Nom : Dupont</p>
-<p>Carte : FID0001</p>
-<p>Points : 0 / 10</p>
+<p>Prénom : <span id="prenom"></span></p>
+<p>Nom : <span id="nom"></span></p>
+<p>Carte : Fid0001</p>
+<p>Points : <span id="points"></span> / <span id="objectif"></span></p>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "TA_CLE_API",
+  authDomain: "carte-de-fidelite-4e429.firebaseapp.com",
+  projectId: "carte-de-fidelite-4e429",
+  storageBucket: "carte-de-fidelite-4e429.firebasestorage.app",
+  messagingSenderId: "77102784223",
+  appId: "1:77102784223:web:1205c72e9a796184e3136a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const docRef = doc(db, "Clients", "Fid0001");
+const docSnap = await getDoc(docRef);
+
+if (docSnap.exists()) {
+  const data = docSnap.data();
+
+  document.getElementById("prenom").textContent = data.prenom;
+  document.getElementById("nom").textContent = data.nom;
+  document.getElementById("points").textContent = data.points;
+  document.getElementById("objectif").textContent = data.objectif;
+}
+
+</script>
 
 </body>
 </html>
