@@ -1,5 +1,13 @@
+const docRef = doc(db, "clients", "fid0001");
 const docSnap = await getDoc(docRef);
 
 alert("Firestore connecté");
 
 if (docSnap.exists()) {
+  const data = docSnap.data();
+
+  document.getElementById("prenom").textContent = data.prenom;
+  document.getElementById("nom").textContent = data.nom;
+  document.getElementById("points").textContent = data.points;
+  document.getElementById("objectif").textContent = data.objectif;
+}
