@@ -1,19 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Carte Fidélité</title>
+</head>
+
+<body>
+
+<h1>Carte Fidélité</h1>
+
+<p>Prénom : <span id="prenom"></span></p>
+<p>Nom : <span id="nom"></span></p>
+<p>Carte : Fid0001</p>
+<p>Points : <span id="points"></span> / <span id="objectif"></span></p>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCV1CyxI6tjWFPH3avuhnfT8_7jRN-vZds",
+  authDomain: "carte-de-fidelite-4e429.firebaseapp.com",
+  projectId: "carte-de-fidelite-4e429",
+  storageBucket: "carte-de-fidelite-4e429.firebasestorage.app",
+  messagingSenderId: "77102784223",
+  appId: "1:77102784223:web:1205c72e9a796184e3136a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 try {
+
   const docRef = doc(db, "Clients", "Fid0001");
   const docSnap = await getDoc(docRef);
 
-  console.log(docSnap);
-
   if (docSnap.exists()) {
+
     const data = docSnap.data();
 
-    document.getElementById("prenom").textContent = data.prenom || "";
-    document.getElementById("nom").textContent = data.nom || "";
-    document.getElementById("points").textContent = data.points || 0;
-    document.getElementById("objectif").textContent = data.objectif || 0;
+    document.getElementById("prenom").textContent = data.prenom;
+    document.getElementById("nom").textContent = data.nom;
+    document.getElementById("points").textContent = data.points;
+    document.getElementById("objectif").textContent = data.objectif;
+
   } else {
+
     document.body.innerHTML += "<p>Document Fid0001 introuvable.</p>";
+
   }
+
 } catch (error) {
+
   document.body.innerHTML += "<p>Erreur : " + error.message + "</p>";
+
 }
+
+</script>
+
+</body>
+</html>
+
