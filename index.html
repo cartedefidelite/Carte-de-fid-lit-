@@ -1,18 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Carte Fidélité</title>
-</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte de fidélité CNL Candle</title>
 
+<style>
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f4f4;
+  text-align:center;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  max-width:400px;
+  margin:auto;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.2);
+}
+
+.progress{
+  width:100%;
+  background:#ddd;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.bar{
+  height:25px;
+  background:#4CAF50;
+  width:0%;
+}
+</style>
+</head>
 <body>
 
-<h1>Carte Fidélité</h1>
+<div class="card">
+  <h1>CNL Candle</h1>
 
-<p>Prénom : <span id="prenom"></span></p>
-<p>Nom : <span id="nom"></span></p>
-<p>Carte : Fid0001</p>
-<p>Points : <span id="points"></span> / <span id="objectif"></span></p>
+  <h2 id="prenom">Chargement...</h2>
+  <p id="nom"></p>
+
+  <p>Points : <span id="points">0</span></p>
+  <p>Objectif : <span id="objectif">0</span></p>
+
+  <div class="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <p id="pourcentage"></p>
+</div>
 
 <script type="module">
 
@@ -31,34 +72,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-try {
+const docRef = doc(db, "clients", "fid0001");
+const docSnap = await getDoc(docRef);
 
-  const docRef = doc(db, "Clients", "Fid0001");
-  const docSnap = await getDoc(docRef);
+if (docSnap.exists()) {
+  const data = docSnap.data();
 
-  if (docSnap.exists()) {
+  document.getElementById("prenom").textContent = data.prenom;
+  document.getElementById("nom").textContent = data.nom;
+  document.getElementById("points").textContent = data.points;
+  document.getElementById("objectif").textContent = data.objectif;
 
-    const data = docSnap.data();
+  const pourcentage = (data.points / data.objectif) * 100;
 
-    document.getElementById("prenom").textContent = data.prenom;
-    document.getElementById("nom").textContent = data.nom;
-    document.getElementById("points").textContent = data.points;
-    document.getElementById("objectif").textContent = data.objectif;
-
-  } else {
-
-    document.body.innerHTML += "<p>Document Fid0001 introuvable.</p>";
-
-  }
-
-} catch (error) {
-
-  document.body.innerHTML += "<p>Erreur : " + error.message + "</p>";
-
+  document.getElementById("bar").style.width = pourcentage + "%";
+  document.getElementById("pourcentage").textContent =
+    Math.round(pourcentage) + "% de l'objectif atteint";
 }
-
 </script>
 
 </body>
 </html>
-
